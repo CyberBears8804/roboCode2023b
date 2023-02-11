@@ -14,10 +14,11 @@ import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import com.revrobotics.CANSparkMax;
+
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Timer;
 
-  
+
 
 
 //IMPORTANT NOTE TO PROGRAMMER: press Fn and F1, type 'deploy robot code' and press enter in order to deploy the code.
@@ -42,6 +43,8 @@ public class Robot extends TimedRobot {
 
   private final DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
 
+  private final CANSparkMax m_Arm = new CANSparkMax(21, MotorType.kBrushless);
+
   //private final CANSparkMax m_shooter = new CANSparkMax(15, MotorType.kBrushed);
 
   private final VictorSPX intake = new VictorSPX(5);
@@ -64,15 +67,40 @@ public class Robot extends TimedRobot {
     // Drive with arcade drive.
     // That means that the Y axis drives forward
     // and backward, and the X turns left and right.
-    m_drive.arcadeDrive(-m_stick.getY(), m_stick.getX());
+    m_drive.arcadeDrive(-m_stick.getY()*0.6, -m_stick.getX()*0.6);
 
+    // xbox controller button X
     if(m_stick.getRawButton(1)){
-      m_drive.arcadeDrive(0.3, 0);
+      m_drive.arcadeDrive(-0.5, 0);
     }
 
-    if(m_stick.getRawButton(3)){
-      m_drive.arcadeDrive(0.3, 0);
+    // xbox controller button Y
+    if(m_stick.getRawButton(4)){
+      m_drive.arcadeDrive(0.5, 0);
     }
+
+    // xbox controller button Left Trigger / Rotate Left
+    if(m_stick.getRawButton(7)){
+      m_drive.arcadeDrive((0), 0.5);
+    }
+
+    // xbox controller button Right Trigger / Rotate Right
+    if(m_stick.getRawButton(8)){
+      m_drive.arcadeDrive(0, -.5);
+    }
+
+    // xbox controller button Left Bumper / Arm Down
+    if(m_stick.getRawButton(5)){
+      m_Arm.set(0.5);
+    }
+    // xbox controller button Right Bumpber / Arm Up
+    else if(m_stick.getRawButton(6)){
+      m_Arm.set(-0.5);
+    }
+    else {
+      m_Arm.set(0);
+    }
+
 
     if(m_stick.getRawButton(4)){
       intake.set(VictorSPXControlMode.PercentOutput, 0.3);
@@ -104,10 +132,17 @@ public class Robot extends TimedRobot {
 
   public void autonomousPeriodic() {
     double timeElapsed = Timer.getFPGATimestamp() - autoStart;
-    if (timeElapsed < 5) {
-      m_drive.arcadeDrive(0.5, 0);
+    if (timeElapsed < 2) {
+      m_drive.arcadeDrive(0.3, 0);
 
       //intake controls 
+    }
+    else if (timeElapsed <4) {
+      m_drive.arcadeDrive(0,0.5 );
+    }
+
+    else if (timeElapsed <6) {
+      m_drive.arcadeDrive(0.3,0.5 );
     }
   
   }
