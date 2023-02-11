@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
 
   //private final CANSparkMax m_shooter = new CANSparkMax(15, MotorType.kBrushed);
 
-  private final VictorSPX intake = new VictorSPX(5);
+  //private final VictorSPX intake = new VictorSPX(5);
   private final Joystick m_stick = new Joystick(0);
 
   double autoStart = 0.0;
@@ -101,13 +101,14 @@ public class Robot extends TimedRobot {
       m_Arm.set(0);
     }
 
-
+/*
     if(m_stick.getRawButton(4)){
       intake.set(VictorSPXControlMode.PercentOutput, 0.3);
     }
     else {
       intake.set(VictorSPXControlMode.PercentOutput, 0);
     }
+*/
 /*
     if (m_stick.getRawButton(5)) {
       m_shooter.set(0.3);
