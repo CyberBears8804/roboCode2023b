@@ -4,8 +4,8 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+//import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+//import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -113,6 +113,7 @@ public class Robot extends TimedRobot {
     else {
       m_Arm.set(0);
     }
+  }
 
 /*
     if(m_stick.getRawButton(4)){
