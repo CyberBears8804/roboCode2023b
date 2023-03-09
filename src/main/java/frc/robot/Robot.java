@@ -4,9 +4,15 @@
 
 package frc.robot;
 
+//import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+//import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.*;
 
@@ -75,13 +81,20 @@ public class Robot extends TimedRobot {
     // Drive with arcade drive.
     // That means that the Y axis drives forward
     // and backward, and the X turns left and right.
-    m_drive.arcadeDrive(-m_stick.getY()*0.6, -m_stick.getX()*0.6);
-
-    // xbox controller button X
+    m_drive.arcadeDrive(-m_stick.getY()*0.7, -m_stick.getX()*0.79);
+    // check if the getY / X absolute value is at +- 0.7, make it a higher multiplier value, if not, a lower multiplier value
+    // xbox controller button A
     if(m_stick.getRawButton(1)){
       m_drive.arcadeDrive(-0.5, 0);
     }
-
+    // xbox controller button B
+    if(m_stick.getRawButton(2)){
+       m_drive.arcadeDrive(0.0, 0);
+    }
+        // xbox controller button X
+    if(m_stick.getRawButton(3)){
+      m_drive.arcadeDrive(0.0, 0);
+    }
     // xbox controller button Y
     if(m_stick.getRawButton(4)){
       m_drive.arcadeDrive(0.5, 0);
@@ -97,6 +110,14 @@ public class Robot extends TimedRobot {
       m_drive.arcadeDrive(0, -.5);
     }
 
+    // xbox controller axis Left trigger
+    if(m_stick.getRawAxis(2) != 0.0){
+      m_drive.arcadeDrive(0, m_stick.getY());
+    }
+    // xbox controller axis Right trigger
+    if(m_stick.getRawAxis(3) != 0.0){
+      m_drive.arcadeDrive(0, -.5);
+    }
     // xbox controller button Left Bumper / Arm Down
     if(m_stick.getRawButton(5)){
       m_Arm.set(0.5);
@@ -108,6 +129,7 @@ public class Robot extends TimedRobot {
     else {
       m_Arm.set(0);
     }
+  }
 
 /*
     if(m_stick.getRawButton(4)){
@@ -116,7 +138,7 @@ public class Robot extends TimedRobot {
     else {
       intake.set(VictorSPXControlMode.PercentOutput, 0);
     }
-*/
+  }
 /*
     if (m_stick.getRawButton(5)) {
       m_shooter.set(0.3);
@@ -131,8 +153,7 @@ public class Robot extends TimedRobot {
     else {
       m_shooter.set(0);
     }
-    */
-  }
+   */ 
 
   public void autonomousInit() {
     autoStart = Timer.getFPGATimestamp();
