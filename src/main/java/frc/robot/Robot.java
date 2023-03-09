@@ -10,14 +10,17 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.*;
 
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+//import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+//import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import com.revrobotics.CANSparkMax;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Timer;
 
+
+//import edu.wpi.first.wpilibj.ADIS16470_IMU;
+//import edu.wpi.first.wpilibj.shuffleboard.*;
 
 
 
@@ -50,6 +53,8 @@ public class Robot extends TimedRobot {
   //private final VictorSPX intake = new VictorSPX(5);
   private final Joystick m_stick = new Joystick(0);
 
+  //private final ADIS16470_IMU gyro= new ADIS16470_IMU();
+
   double autoStart = 0.0;
   
   @Override
@@ -59,6 +64,9 @@ public class Robot extends TimedRobot {
     // gearbox is constructed, you might have to invert the left side instead.
     m_left.setInverted(true);
     CameraServer.startAutomaticCapture();
+    
+    // Places a compass indicator for the gyro heading on the dashboard
+    //Shuffleboard.getTab("gyro tab").add(gyro);
   }
   
 
@@ -133,15 +141,17 @@ public class Robot extends TimedRobot {
 
   public void autonomousPeriodic() {
     double timeElapsed = Timer.getFPGATimestamp() - autoStart;
+    // Drive forward X seconds
     if (timeElapsed < 2) {
       m_drive.arcadeDrive(0.3, 0);
 
       //intake controls 
     }
+    // Then rotate for X seconds
     else if (timeElapsed <4) {
       m_drive.arcadeDrive(0,0.5 );
     }
-
+    // Then drive again for X seconds
     else if (timeElapsed <6) {
       m_drive.arcadeDrive(0.3,0.5 );
     }
