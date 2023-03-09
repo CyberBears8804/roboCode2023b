@@ -19,11 +19,6 @@ import edu.wpi.first.wpilibj.motorcontrol.*;
 //import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 //import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-import com.revrobotics.CANSparkMax;
-
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.Timer;
-
 
 //import edu.wpi.first.wpilibj.ADIS16470_IMU;
 //import edu.wpi.first.wpilibj.shuffleboard.*;
