@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.*;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 //import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 //import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -44,10 +44,12 @@ public class Robot extends TimedRobot {
   private final CANSparkMax m_frontRight = new CANSparkMax(13, MotorType.kBrushed);
   private final CANSparkMax m_rearRight = new CANSparkMax(14, MotorType.kBrushed);
   private final MotorControllerGroup m_right = new MotorControllerGroup(m_frontRight, m_rearRight);
-
+  
   private final DifferentialDrive m_drive = new DifferentialDrive(m_left, m_right);
 
   private final CANSparkMax m_Arm = new CANSparkMax(21, MotorType.kBrushless);
+
+  private final CANSparkMax intakemotor = new CANSparkMax(99, MotorType.kBrushless);
 
   //private final CANSparkMax m_shooter = new CANSparkMax(15, MotorType.kBrushed);
 
@@ -76,7 +78,7 @@ public class Robot extends TimedRobot {
     // Drive with arcade drive.
     // That means that the Y axis drives forward
     // and backward, and the X turns left and right.
-    m_drive.arcadeDrive(-m_stick.getY()*0.7, -m_stick.getX()*0.79);
+    m_drive.arcadeDrive(-m_stick.getY()*0.8, -m_stick.getX()*0.8);
     // check if the getY / X absolute value is at +- 0.7, make it a higher multiplier value, if not, a lower multiplier value
     // xbox controller button A
     if(m_stick.getRawButton(1)){
@@ -105,26 +107,31 @@ public class Robot extends TimedRobot {
       m_drive.arcadeDrive(0, -.5);
     }
 
-    // xbox controller axis Left trigger
+    //outake left trigger 2
     if(m_stick.getRawAxis(2) != 0.0){
-      m_drive.arcadeDrive(0, m_stick.getY());
+      intakemotor.set(-0.5);
     }
-    // xbox controller axis Right trigger
+    //intake right trigger 2
     if(m_stick.getRawAxis(3) != 0.0){
-      m_drive.arcadeDrive(0, -.5);
+      intakemotor.set(0.9);
     }
     // xbox controller button Left Bumper / Arm Down
     if(m_stick.getRawButton(5)){
-      m_Arm.set(0.5);
+      m_Arm.set(1);
     }
+    
     // xbox controller button Right Bumpber / Arm Up
     else if(m_stick.getRawButton(6)){
-      m_Arm.set(-0.5);
+      m_Arm.set(-1);
     }
     else {
       m_Arm.set(0);
     }
+  
   }
+  
+//intake 
+
 
 /*
     if(m_stick.getRawButton(4)){
@@ -155,22 +162,26 @@ public class Robot extends TimedRobot {
   }
 
 
+  /* (non-Javadoc)
+   * @see edu.wpi.first.wpilibj.IterativeRobotBase#autonomousPeriodic()
+   */
   public void autonomousPeriodic() {
     double timeElapsed = Timer.getFPGATimestamp() - autoStart;
-    // Drive forward X seconds
-    if (timeElapsed < 2) {
-      m_drive.arcadeDrive(0.3, 0);
+    // Drive backwards X seconds
+    if (timeElapsed < 1) {
+      m_drive.arcadeDrive(-0.5,0);
+
+      //intake controls 
+    }  
+     else if (timeElapsed <5.1 ) {
+      m_drive.arcadeDrive(0.55, 0);
 
       //intake controls 
     }
-    // Then rotate for X seconds
-    else if (timeElapsed <4) {
-      m_drive.arcadeDrive(0,0.5 );
+    else if (timeElapsed <15 ) {
+      m_drive.arcadeDrive(.2, 0);
+
+      //intake controls 
     }
-    // Then drive again for X seconds
-    else if (timeElapsed <6) {
-      m_drive.arcadeDrive(0.3,0.5 );
-    }
-  
   }
 }
